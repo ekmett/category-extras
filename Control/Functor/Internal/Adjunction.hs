@@ -139,7 +139,9 @@ instance Representable (Reader e) (Coreader e ()) where
 	unrep = unrepAdjunction
 
 instance Adjunction (Coreader e) (Reader e) where
-	unit a = Reader (\e -> Coreader e a)
+	-- Use ask and (>>=) instead of 'Reader' constructor; this works with 
+	-- both pre- and post-transformers MTL
+	unit a = ask >>= return . flip Coreader a
 	counit (Coreader x f) = runReader f x
 
 instance ComonadContext e ((,)e `ACompF` (->)e) where
