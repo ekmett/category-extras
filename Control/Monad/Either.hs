@@ -40,6 +40,8 @@ newtype EitherT a m b = EitherT { runEitherT :: m (Either a b) }
 --instance Pointed (Either e) where
 --	point = Right
 
+#ifndef MTL2
+
 instance Monad (Either e) where
         return = Right
         Right m >>= k = k m
@@ -55,6 +57,8 @@ instance MonadFix (Either e) where
 			Right r -> r
 			_ -> error "empty mfix argument"
 		in a
+
+#endif
 
 instance Functor f => Functor (EitherT a f) where
 	fmap f = EitherT . fmap (fmap f) . runEitherT

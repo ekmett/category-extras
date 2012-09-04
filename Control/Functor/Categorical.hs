@@ -52,20 +52,20 @@ instance CFunctor (Cont e) Hask Hask where cmap = fmap
 instance CFunctor (LRWS.RWS r w s) Hask Hask where cmap = fmap
 instance CFunctor IO Hask Hask where cmap = fmap
 
-instance Monad m => CFunctor (ReaderT e m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (LW.WriterT e m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (LS.StateT e m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (ContT r m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (ListT m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (LRWS.RWST r w s m) Hask Hask where cmap = fmap
+instance Functor (ReaderT e m)       => CFunctor (ReaderT e m) Hask Hask where cmap = fmap
+instance Functor (LW.WriterT e m)    => CFunctor (LW.WriterT e m) Hask Hask where cmap = fmap
+instance Functor (LS.StateT e m)     => CFunctor (LS.StateT e m) Hask Hask where cmap = fmap
+instance Functor (ContT r m)         => CFunctor (ContT r m) Hask Hask where cmap = fmap
+instance Functor (ListT m)           => CFunctor (ListT m) Hask Hask where cmap = fmap
+instance Functor (LRWS.RWST r w s m) => CFunctor (LRWS.RWST r w s m) Hask Hask where cmap = fmap
 
 #if __GLASGOW_HASKELL__ >= 608
 instance CFunctor (SW.Writer e) Hask Hask where cmap = fmap
 instance CFunctor (SS.State s) Hask Hask where cmap = fmap
 instance CFunctor (SRWS.RWS r w s) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (SW.WriterT w m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (SS.StateT s m) Hask Hask where cmap = fmap
-instance Monad m => CFunctor (SRWS.RWST r w s m) Hask Hask where cmap = fmap
+instance Functor (SW.WriterT w m)    => CFunctor (SW.WriterT w m) Hask Hask where cmap = fmap
+instance Functor (SS.StateT s m)     => CFunctor (SS.StateT s m) Hask Hask where cmap = fmap
+instance Functor (SRWS.RWST r w s m) => CFunctor (SRWS.RWST r w s m) Hask Hask where cmap = fmap
 #endif
 
 class CFunctor m (~>) (~>) => CBind m (~>) where

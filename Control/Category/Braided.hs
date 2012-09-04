@@ -43,11 +43,13 @@ class Braided k p => Symmetric k p
 swap :: Symmetric k p => k (p a b) (p b a)
 swap = braid
 
+#if __GLASGOW_HASKELL__ < 700
 {-# RULES
 "swap/swap" swap . swap = id
 "braid/associate/braid"         bimap id braid . associate . bimap braid id = associate . braid . associate
 "braid/coassociate/braid"       bimap braid id . coassociate . bimap id braid = coassociate . braid . coassociate
  #-}
+#endif
 
 instance Braided Hask Either where
         braid (Left a) = Right a

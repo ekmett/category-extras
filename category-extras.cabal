@@ -1,6 +1,6 @@
 name:          category-extras
 category:      Control, Monads, Comonads
-version:       0.53.6
+version:       0.53.6.1
 license:       BSD3
 cabal-version: >= 1.2
 license-file:  LICENSE
@@ -22,6 +22,11 @@ flag Optimize
   description: Enable optimizations
   default:     False
 
+flag mtl2
+  description: Building with MTL 2 (which has more instances already 
+               provided than earlier versions of MTL)
+  default:     True
+
 library
   extensions:
     CPP,
@@ -41,8 +46,13 @@ library
 
   build-depends: 
     base > 4, 
-    array >= 0.3 && < 0.4,
-    mtl >= 1.1
+    array >= 0.3 && < 0.4
+
+  if flag(mtl2)
+    build-depends:  mtl >= 2
+    cpp-options:    -DMTL2
+  else
+    build-depends:  mtl >= 1.1 && < 2
 
   other-modules:
     Control.Functor.Internal.Adjunction,
